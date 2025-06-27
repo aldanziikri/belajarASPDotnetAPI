@@ -27,6 +27,8 @@ namespace belajarASPDotnetAPI.Controllers
 
             try
             {
+                
+
                 List<Product> products = await _context.Products.ToListAsync();
                 return Ok(new
                 {
@@ -51,6 +53,15 @@ namespace belajarASPDotnetAPI.Controllers
         {
             try
             {
+               if (!ModelState.IsValid)
+                {
+                    var error = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return BadRequest(new { 
+                        message = "Gagal validasi",
+                        status_code = 400,
+                        errors = error
+                    });
+                }
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
                 return CreatedAtAction("GetProductById", new { product.id }, new
@@ -107,6 +118,15 @@ namespace belajarASPDotnetAPI.Controllers
         {
             try
             {
+                 if (!ModelState.IsValid)
+                {
+                    var error = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return BadRequest(new { 
+                        message = "Gagal validasi",
+                        status_code = 400,
+                        errors = error
+                    });
+                }
                 var product = await _context.Products.FindAsync(id);
 
                 if (product == null)

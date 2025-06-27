@@ -6,11 +6,14 @@ namespace belajarASPDotnetAPI.Models
     {
         public int id { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Nama produk wajib diisi.")]
         public string name { get; set; }
+
+        [Required(ErrorMessage = "Kuantitas produk wajib diisi.")]
+        [Range(0,999999, ErrorMessage = "Kuantitas harus berisi minimal 0")]
         public int quantity { get; set; }
-        //[Required]
-        //[MaxLength(50)]
+
+        [MaxLength(50, ErrorMessage = "Deskripsi tidak boleh melebihi 50 karakter")]
         public string description { get; set; }
     }
 }
